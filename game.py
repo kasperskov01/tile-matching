@@ -1,28 +1,34 @@
 import random
+import pygame
 
 class Game():
     def __init__(self):
         self.grid = [[random.randint(1,5) for y in range(0,10)] for x in range(0,10)]
         self.anim = [[0 for y in range(0,10)] for x in range(0,10)]
         self.points = 0
+        self.SHOOT_SOUND = pygame.mixer.Sound('sounds/blib_blob.wav')
+        self.SHOOT_SOUND.set_volume(0.5)
         print(self.grid)
 
     def build_grid(self):
         #import pdb; pdb.set_trace()
+        self.SHOOT_SOUND.play()
+        print("turn on")
         for x in range(0, len(self.grid)):
             for y in range(0, len(self.grid)):
                 if self.grid[x][y] == 0:
                     if y < len(self.grid[x])-1 and not all(self.grid[x][yy] == 0 for yy in range(y, len(self.grid[x]))):
                         # Flyt kolonnen ned
                         while(self.grid[x][y] == 0):
-                            # Giv point hver gang en kolonne flyttes ned
-                            self.add_points(1)                           
                             self.grid[x][y:] = self.shift_column(self.grid[x][y:], 1)
                             self.anim[x][y:] = [50 for i in range(y,len(self.anim[x]))]
                     # Fyld op med nye tiles
                     for fill in range(0,len(self.grid[x])):
                         if self.grid[x][fill] == 0:
+                            self.add_points(1)
                             self.grid[x][fill] = random.randint(1,5)
+        pygame.mixer.pause()
+        print("turn off")
 
     def add_points(self, points):
         self.points += points
