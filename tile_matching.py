@@ -4,7 +4,7 @@ from game import Game
 # Setup pygame
 pygame.init()
 screen = pygame.display.set_mode((800, 600))#, pygame.FULLSCREEN)
-myfont = pygame.font.SysFont("monospace", 12)
+myfont = pygame.font.SysFont("monospace", 20)
 clock = pygame.time.Clock()
 
 # Initialize game variables
@@ -31,6 +31,10 @@ def draw_game():
                 if game.anim[x][y] == 0:
                     game.detect_matches(True)
             pygame.draw.rect(screen, tile_colors[game.grid[x][y]], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
+
+    # Tekst
+    # Score
+    screen.blit(myfont.render("Du har {} point".format(game.points), 0, (255,255,255)), (50,50))
 
 def pixels_to_cell(x,y):
     x1 = int((x - tile_offset[0])/tile_size[0])

@@ -4,6 +4,7 @@ class Game():
     def __init__(self):
         self.grid = [[random.randint(1,5) for y in range(0,10)] for x in range(0,10)]
         self.anim = [[0 for y in range(0,10)] for x in range(0,10)]
+        self.points = 0
         print(self.grid)
 
     def build_grid(self):
@@ -14,6 +15,8 @@ class Game():
                     if y < len(self.grid[x])-1 and not all(self.grid[x][yy] == 0 for yy in range(y, len(self.grid[x]))):
                         # Flyt kolonnen ned
                         while(self.grid[x][y] == 0):
+                            # Giv point hver gang en kolonne flyttes ned
+                            self.add_points(1)                           
                             self.grid[x][y:] = self.shift_column(self.grid[x][y:], 1)
                             self.anim[x][y:] = [50 for i in range(y,len(self.anim[x]))]
                     # Fyld op med nye tiles
@@ -21,6 +24,9 @@ class Game():
                         if self.grid[x][fill] == 0:
                             self.grid[x][fill] = random.randint(1,5)
 
+    def add_points(self, points):
+        self.points += points
+        print(self.points)
 
     def shift_column(self, l, n):
         return l[n:] + l[:n]
