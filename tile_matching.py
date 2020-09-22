@@ -3,7 +3,15 @@ from game import Game
 
 # Setup pygame
 pygame.init()
-screen = pygame.display.set_mode((800, 600))#, pygame.FULLSCREEN)
+screen_width = 800
+screen_height = 620
+
+reset_btn_x = screen_width - 125
+reset_btn_y = screen_height - 65
+reset_btn_width = 100
+reset_btn_height = 40
+
+screen = pygame.display.set_mode((screen_width, screen_height))#, pygame.FULLSCREEN)
 myfont = pygame.font.SysFont("monospace", 20)
 clock = pygame.time.Clock()
 
@@ -35,6 +43,12 @@ def draw_game():
     # Tekst
     # Score
     screen.blit(myfont.render("Du har {} point".format(game.points), 0, (255,255,255)), (50,50))
+
+    # Knapper
+    # Reset
+    pygame.draw.rect(screen, (255,100,100), pygame.Rect(reset_btn_x, reset_btn_y, reset_btn_width, reset_btn_height))
+    screen.blit(myfont.render("Restart", 0, (255,255,255)), (reset_btn_x + 9, reset_btn_y + 8))
+
 
 def pixels_to_cell(x,y):
     x1 = int((x - tile_offset[0])/tile_size[0])
@@ -86,6 +100,11 @@ while not done:
                         #Når der er byttet brikker, kan vi kontrollere om der er lavet et match
                         game.detect_matches()
                         current_tile = None
+
+                if reset_btn_x <= pos[0] < reset_btn_x + reset_btn_width and reset_btn_y <= pos[1] < reset_btn_y + reset_btn_height:
+                    print("Reset clicked")
+                    game = Game()
+
 
     output_logic(tilstand)
 
