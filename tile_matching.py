@@ -35,7 +35,7 @@ def draw_game():
     for y in range(0,len(game.grid)):
         for x in range(0,len(game.grid[y])):
             if game.anim[x][y] > 0:
-                game.anim[x][y] -= 1
+                game.anim[x][y] -= 2
                 if game.anim[x][y] == 0:
                     game.detect_matches(True)
             pygame.draw.rect(screen, tile_colors[game.grid[x][y]], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
@@ -95,6 +95,7 @@ while not done:
                     if current_tile is None:
                         current_tile = (x_cell, y_cell)
                     else:
+                        game.just_swapped = True
                         game.swap_tiles(x_cell, y_cell, current_tile[0], current_tile[1])
 
                         #Når der er byttet brikker, kan vi kontrollere om der er lavet et match
